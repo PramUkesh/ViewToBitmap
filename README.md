@@ -3,7 +3,11 @@
 An Android library that makes it very easy and very quick to save any View or ViewGroup as an image to the gallery.  
 Perfect for photofiltre, quotes and drawing apps!
 
-Currentely used in [Quote Creator] (https://play.google.com/store/apps/details?id=org.m.muddzboy.QuoteCreator&hl=da) with +80.000 downloads! 
+Currently used in:
+- [Quote Creator] (https://play.google.com/store/apps/details?id=org.m.muddzboy.QuoteCreator&hl=da) with +80.000 downloads!
+- [Shopping List] (https://play.google.com/store/apps/details?id=com.muddii.shopping_list&hl=da)
+
+*Feel free to contact me if you want your app to be included here*
 
 ### Features
 
@@ -34,6 +38,8 @@ dependencies {
  ----
 
 ### License
+
+    Copyright 2017 Muddii Walid (Muuddz)
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
