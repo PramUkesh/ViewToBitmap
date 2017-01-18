@@ -16,6 +16,20 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
+//        Copyright 2017 Muddii Walid (Muuddz)
+//
+//        Licensed under the Apache License, Version 2.0 (the "License");
+//        you may not use this file except in compliance with the License.
+//        You may obtain a copy of the License at
+//
+//        http://www.apache.org/licenses/LICENSE-2.0
+//
+//        Unless required by applicable law or agreed to in writing, software
+//        distributed under the License is distributed on an "AS IS" BASIS,
+//        WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//        See the License for the specific language governing permissions and
+//        limitations under the License.
+
 /**
  * <p></p>
  * The most easy way to save any View as Bitmap to the phones gallery with options as; file format, jpg quality, naming of the files and folder.
@@ -46,7 +60,7 @@ public class ViewToBitmap {
 
     /**
      * @param view       The view that will be saved as Bitmap. Can also be a ViewGroup.
-     * @param folderName name of the folder/directory that will be created to store the saved Bitmaps. The folder will be shown in the phones gallery app.
+     * @param folderName Name of the folder/directory that will be created to store your saved Bitmaps.
      */
     public ViewToBitmap(@NonNull Context context, @NonNull View view, String folderName) {
         this.context = context;
@@ -55,7 +69,7 @@ public class ViewToBitmap {
     }
 
     /**
-     * @param saveAsNomedia Saving the bitmap as nomedia makes it invisible in the gallery
+     * @param saveAsNomedia Saving the bitmap as .nomedia fileformat makes it invisible in the gallery.
      */
     public ViewToBitmap setSaveAsNomedia(boolean saveAsNomedia) {
         this.saveAsNomedia = saveAsNomedia;
@@ -69,8 +83,8 @@ public class ViewToBitmap {
 
     /**
      * Set the quality of the JPG between 1-100 before saving.
-     * <p>As default the quality for JPG will be MAX</p>
-     * <p>Any value set will be ignored for PNG</p>
+     * <p>As default the quality for JPG will be 100(MAX).</p>
+     * <p>Any value set will be ignored for PNG.</p>
      *
      * @param jpgQuality
      */
@@ -80,8 +94,8 @@ public class ViewToBitmap {
     }
 
     /**
-     * Sets the name of saved file.
-     * <p>If not set manually, the files will have System.currentTimeMillis() as filename</p>
+     * Set the name of saved file.
+     * <p>If not set manually, the files will have a timestamp as filename.</p>
      *
      * @param fileName
      */
@@ -92,8 +106,7 @@ public class ViewToBitmap {
 
 
     /**
-     * Sets the name of the folder that will be shown in the users phones gallery app
-     *
+     * Set the name of the folder that will be shown in the users phones gallery app.
      * @param folderName
      */
     public ViewToBitmap setFolderName(String folderName) {
@@ -119,6 +132,7 @@ public class ViewToBitmap {
         this.view = view;
         return this;
     }
+
 
     public ViewToBitmap setOnBitmapSaveListener(OnBitmapSaveListener onBitmapSaveListener) {
         this.onBitmapSaveListener = onBitmapSaveListener;
@@ -196,10 +210,11 @@ public class ViewToBitmap {
             final File myDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), getFolderName());
             myDir.mkdirs();
             final File file = new File(myDir, getFileName() + getFileExtension());
+            OutputStream out = null;
             int quality = 0;
-            try  {
 
-                OutputStream out = new BufferedOutputStream(new FileOutputStream(file));
+            try {
+                out = new BufferedOutputStream(new FileOutputStream(file));
 
                 if (saveAsPNG) {
                     viewToBitmap().compress(Bitmap.CompressFormat.PNG, 100, out);
@@ -220,6 +235,14 @@ public class ViewToBitmap {
                 e.printStackTrace();
 
             } finally {
+                if (out != null) {
+                    try {
+                        out.close();
+                    } catch (IOException e) {
+                        onBitmapSavedListener(false, null);
+                        e.printStackTrace();
+                    }
+                }
                 MediaScannerConnection.scanFile(context, new String[]{file.toString()}, null, this);
             }
 
