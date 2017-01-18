@@ -32,7 +32,7 @@ Add the depedency in your build.gradle. The library is distributed via jCenter
 
 ```groovy
 dependencies {
-    compile 'com.muddzdev:viewtobitmap:1.0.4'    
+    compile 'com.muddzdev:viewtobitmap:1.0.5'    
 }
 ```
  ----
