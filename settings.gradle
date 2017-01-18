@@ -1,1 +1,1 @@
-include ':sample', ':viewtobitmap' 
+include ':sample', ':viewtobitmap'
