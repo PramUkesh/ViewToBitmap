@@ -6,7 +6,10 @@ import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 
@@ -60,13 +63,26 @@ public class ViewToBitmap {
 
     /**
      * @param view       The view that will be saved as Bitmap. Can also be a ViewGroup.
-     * @param folderName Name of the folder/directory that will be created to store your saved Bitmaps.
+     * @param folderName Name of the folder/directory that will be created to store your saved Bitmaps. If null Bitmaps will be saved to DIRECTORY_PICTURES.
      */
-    public ViewToBitmap(@NonNull Context context, @NonNull View view, String folderName) {
+    public ViewToBitmap(@NonNull Context context, @NonNull View view, @Nullable String folderName) {
         this.context = context;
         this.view = view;
         this.folderName = folderName;
     }
+
+    /**
+     * @param view       The view that will be saved as Bitmap. Can also be a ViewGroup.
+     * @param folderName Name of the folder/directory that will be created to store your saved Bitmaps. If null Bitmaps will be saved to DIRECTORY_PICTURES.
+     * @param fileName   If null the filename will be a timestamp at saving time.
+     */
+    public ViewToBitmap(@NonNull Context context, @NonNull View view, @Nullable String folderName, @Nullable String fileName) {
+        this.context = context;
+        this.view = view;
+        this.folderName = folderName;
+        this.fileName = fileName;
+    }
+
 
     /**
      * @param saveAsNomedia Saving the bitmap as .nomedia fileformat makes it invisible in the gallery.
@@ -107,6 +123,7 @@ public class ViewToBitmap {
 
     /**
      * Set the name of the folder that will be shown in the users phones gallery app.
+     *
      * @param folderName
      */
     public ViewToBitmap setFolderName(String folderName) {
@@ -119,8 +136,8 @@ public class ViewToBitmap {
 
         String result;
 
-        if (folderName == "" || folderName.isEmpty()) {
-            result = String.valueOf(System.currentTimeMillis());
+        if (folderName == null || folderName.isEmpty()) {
+            result = "";
         } else {
             result = folderName;
         }
@@ -128,7 +145,7 @@ public class ViewToBitmap {
         return result;
     }
 
-    public ViewToBitmap setView(View view) {
+    public ViewToBitmap setView(@NonNull View view) {
         this.view = view;
         return this;
     }
@@ -148,10 +165,15 @@ public class ViewToBitmap {
         return this;
     }
 
-    private void onBitmapSavedListener(boolean isSaved, String path) {
-        if (onBitmapSaveListener != null) {
-            onBitmapSaveListener.onBitmapSaved(isSaved, path);
-        }
+    private void onBitmapSavedListener(final boolean isSaved, final String path) {
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                if (onBitmapSaveListener != null) {
+                    onBitmapSaveListener.onBitmapSaved(isSaved, path);
+                }
+            }
+        });
     }
 
 
@@ -160,7 +182,6 @@ public class ViewToBitmap {
         if (fileName == null || fileName.isEmpty()) {
             result = String.valueOf(System.currentTimeMillis());
         } else {
-
             result = fileName;
         }
         return result;
@@ -230,9 +251,6 @@ public class ViewToBitmap {
             } catch (IOException e) {
                 e.printStackTrace();
                 onBitmapSavedListener(false, null);
-
-            } catch (NullPointerException e) {
-                e.printStackTrace();
 
             } finally {
                 if (out != null) {

@@ -3,6 +3,7 @@
     package="com.muddzdev.viewtobitmap">
 
 
+    <uses-permission android:name="android.permission.VIBRATE"></uses-permission>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application

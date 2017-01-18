@@ -2,7 +2,9 @@ package com.muddzdev.viewtobitmap;
 
 import android.Manifest;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -10,9 +12,10 @@ import android.widget.Toast;
 import com.muddzdev.viewtobitmaplibrary.ViewToBitmap;
 import com.muddzdev.viewtobitmaplibrary.OnBitmapSaveListener;
 
-public class MainActivity extends AppCompatActivity implements OnBitmapSaveListener{
+public class MainActivity extends AppCompatActivity implements OnBitmapSaveListener {
 
     private RelativeLayout container;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,12 +26,18 @@ public class MainActivity extends AppCompatActivity implements OnBitmapSaveListe
         permissionRequester.request();
 
         container = (RelativeLayout) findViewById(R.id.container);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
     }
 
 
     public void bitmapSave(View v) {
 
-        ViewToBitmap toBitmap = new ViewToBitmap(this, container, "ViewToBitmap Sample");
+        Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+        vibrator.vibrate(60);
+
+        ViewToBitmap toBitmap = new ViewToBitmap(this, container, null, null);
         toBitmap.setOnBitmapSaveListener(this);
         toBitmap.saveToBitmap();
     }
@@ -37,15 +46,7 @@ public class MainActivity extends AppCompatActivity implements OnBitmapSaveListe
     @Override
     public void onBitmapSaved(final boolean isSaved, final String path) {
 
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-
-                if (isSaved) {
-                    Toast.makeText(MainActivity.this, "Bitmap Saved at; " + path, Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+        Toast.makeText(MainActivity.this, "Bitmap Saved at; " + path, Toast.LENGTH_SHORT).show();
 
     }
 }

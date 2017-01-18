@@ -4,61 +4,77 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#073b6b"
+    android:background="#ffffff"
     tools:context="com.muddzdev.viewtobitmap.MainActivity">
 
+
     <RelativeLayout
-        android:id="@+id/container"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:background="#ca009688">
+
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center" />
 
 
         <TextView
-            android:id="@+id/textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:text="CONTROL COMMAND"
-            android:textColor="#00ff40"
+            android:layout_centerVertical="true"
+            android:paddingLeft="16dp"
+            android:text="ViewToBitmap"
+            android:textColor="#ffffff"
+            android:textSize="18sp"
             android:textStyle="bold" />
 
 
-        <EditText
-            android:id="@+id/edittext"
-            android:layout_width="match_parent"
-            android:layout_height="400dp"
-            android:layout_below="@id/textview"
-            android:background="#20486c"
-            android:fontFamily="monospace"
-            android:gravity="top"
-            android:padding="10dp"
-            android:text="write a quote or story and save it as an bitmap and share the images to your friends."
-            android:textAllCaps="true"
-            android:textColor="#08fbff"
-            android:textSize="14sp" />
-
-
-        <RelativeLayout
-
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@id/edittext"
-            android:background="#d8226681">
-
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:background="#640052b6"
-                android:onClick="bitmapSave"
-                android:padding="14dp"
-                android:text="SAVE AS BITMAP"
-                android:textColor="#00ff40"
-                android:textStyle="bold" />
-
-        </RelativeLayout>
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:onClick="bitmapSave"
+            android:paddingRight="16dp"
+            android:text="SAVE"
+            android:textColor="#ffe600"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
     </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_centerInParent="true"
+        android:background="@drawable/samplebgg"
+        android:elevation="5dp">
+
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="#00000000"
+            android:padding="16dp"
+            android:shadowColor="#000000"
+            android:shadowDx="7"
+            android:shadowDy="2"
+            android:shadowRadius="2"
+            android:text="Hello World! (:"
+            android:textColor="#fafafa"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+
+
+    </RelativeLayout>
+
 
 </RelativeLayout>
