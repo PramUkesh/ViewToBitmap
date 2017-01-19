@@ -9,9 +9,39 @@
 
 
     <RelativeLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_centerInParent="true"
+        android:background="@drawable/samplebgg"
+        android:elevation="5dp">
+
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="#00000000"
+            android:padding="16dp"
+            android:shadowColor="#000000"
+            android:shadowDx="7"
+            android:shadowDy="2"
+            android:shadowRadius="2"
+            android:text="Hello World! (:"
+            android:textColor="#fafafa"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
-        android:background="#ca009688">
+        android:background="#ca009688"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
 
         <android.support.v7.widget.Toolbar
@@ -39,40 +69,12 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:onClick="bitmapSave"
+            android:onClick="saveToGallery"
             android:paddingRight="16dp"
             android:text="SAVE"
             android:textColor="#ffe600"
             android:textSize="18sp"
             android:textStyle="bold" />
-
-    </RelativeLayout>
-
-
-    <RelativeLayout
-        android:id="@+id/container"
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:layout_centerInParent="true"
-        android:background="@drawable/samplebgg"
-        android:elevation="5dp">
-
-
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:background="#00000000"
-            android:padding="16dp"
-            android:shadowColor="#000000"
-            android:shadowDx="7"
-            android:shadowDy="2"
-            android:shadowRadius="2"
-            android:text="Hello World! (:"
-            android:textColor="#fafafa"
-            android:textSize="30sp"
-            android:textStyle="bold" />
-
 
     </RelativeLayout>
 
