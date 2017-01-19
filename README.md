@@ -23,11 +23,12 @@ Currently used in:
 ### Example of simple usage
 
     public void saveToGallery(View v) {
+        
         ViewToBitmap image = new ViewToBitmap(drawingBoard);
         image.setOnBitmapSaveListener(this);
         image.saveToGallery();
     }
-
+   
     @Override
     public void onBitmapSaved(final boolean isSaved, final String path) {
         if (isSaved) {
