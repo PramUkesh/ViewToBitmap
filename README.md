@@ -1,7 +1,7 @@
 ### ViewToBitmap
 
 An Android library that makes it very easy and very quick to save any View or ViewGroup as an image to the gallery.  
-Perfect for photofiltre, quotes and drawing apps!
+Perfect for photofiltre, quotes and drawing apps! Feel free to try the .apk sample.
 
 Currently used in:
 - [Quote Creator] (https://play.google.com/store/apps/details?id=org.m.muddzboy.QuoteCreator&hl=da) with +80.000 downloads!
@@ -22,8 +22,19 @@ Currently used in:
 
 ### Example of simple usage
 
-        ViewToBitmap toBitmap = new ViewToBitmap(this, drawingBoard, "My folder name");
-        toBitmap.saveToBitmap();  
+    public void saveToGallery(View v) {
+        
+        ViewToBitmap image = new ViewToBitmap(drawingBoard);
+        image.setOnBitmapSaveListener(this);
+        image.saveToGallery();
+    }
+   
+    @Override
+    public void onBitmapSaved(final boolean isSaved, final String path) {
+        if (isSaved) {
+            Toast.makeText(this, "Bitmap Saved at; " + path, Toast.LENGTH_SHORT).show();
+        }
+    }  
     
     
 ### Installation
@@ -32,14 +43,14 @@ Add the depedency in your build.gradle. The library is distributed via jCenter
 
 ```groovy
 dependencies {
-    compile 'com.muddzdev:viewtobitmap:1.0.4'    
+    compile 'com.muddzdev:viewtobitmap:1.0.5'    
 }
 ```
  ----
 
 ### License
 
-    Copyright 2017 Muddii Walid (Muuddz)
+    Copyright 2017 Muddii Walid (Muddz)
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
