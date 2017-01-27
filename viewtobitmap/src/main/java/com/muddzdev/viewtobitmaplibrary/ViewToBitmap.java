@@ -123,20 +123,20 @@ public class ViewToBitmap {
 
 
     /**
-     * Set the name of the folder that will be shown in the users phones gallery app.
-     *
+     * Sets the name of the folder/Directory to where your bitmaps will be saved.
+     * <p>Default directory: Environment.DIRECTORY_PICTURES.</p>
+     * Other standard Android directories in Environment.DIRECTORY_X can also be used
+     * <p>or just name your own directory as you wish</p>
      * @param folderName
      */
-    public void setFolderName(String folderName) {
+    public void setDirectoryName(String folderName) {
         this.folderName = folderName;
 
     }
 
 
     private String getFolderName() {
-
         String result;
-
         if (folderName == null || folderName.isEmpty()) {
             result = Environment.DIRECTORY_PICTURES;
         } else {
