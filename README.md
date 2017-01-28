@@ -24,6 +24,7 @@ Currently used in:
 
 ### Example of simple usage
 
+```java
     public void saveToGallery(View v) {
         
         ViewToBitmap image = new ViewToBitmap(drawingBoard);
@@ -37,6 +38,8 @@ Currently used in:
             Toast.makeText(this, "Bitmap Saved at; " + path, Toast.LENGTH_SHORT).show();
         }
     }  
+    
+```
     
     
 ### Installation
