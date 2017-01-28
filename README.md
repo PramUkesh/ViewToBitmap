@@ -9,7 +9,7 @@ Currently used in:
 
 *Feel free to contact me if you want your app to be included here*
 
-<a href="https://github.com/Muddz/ViewToBitmap/blob/master/ViewToBitmap-sample.apk">Download the sample .apk: </a>
+<a href="https://github.com/Muddz/ViewToBitmap/raw/master/ViewToBitmap-sample.apk">Download the sample .apk: </a>
 
 ### Features
 
