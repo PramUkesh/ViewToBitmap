@@ -127,6 +127,7 @@ public class ViewToBitmap {
      * <p>Default directory: Environment.DIRECTORY_PICTURES.</p>
      * Other standard Android directories in Environment.DIRECTORY_X can also be used
      * <p>or just name your own directory as you wish</p>
+     *
      * @param folderName
      */
     public void setDirectoryName(String folderName) {
@@ -178,27 +179,22 @@ public class ViewToBitmap {
 
 
     private String getFileName() {
-        String result;
         if (fileName == null || fileName.isEmpty()) {
-            result = String.valueOf(System.currentTimeMillis());
+            return String.valueOf(System.currentTimeMillis());
         } else {
-            result = fileName;
+            return fileName;
         }
-        return result;
     }
 
 
     private String getFileExtension() {
-        String result;
-
         if (saveAsPNG) {
-            result = EXTENSION_PNG;
+            return EXTENSION_PNG;
         } else if (saveAsNomedia) {
-            result = EXTENSION_NOMEDIA;
+            return EXTENSION_NOMEDIA;
         } else {
-            result = EXTENSION_JPG;
+            return EXTENSION_JPG;
         }
-        return result;
     }
 
     /**
@@ -223,28 +219,21 @@ public class ViewToBitmap {
     }
 
     private boolean isExternalStorageReady() {
-        boolean result;
-
         if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
-            result = true;
+            return true;
         } else {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     private boolean isPermissionGranted() {
         String permission = Manifest.permission.WRITE_EXTERNAL_STORAGE;
-        boolean result;
 
         if (ContextCompat.checkSelfPermission(getAppContext(), permission) == PackageManager.PERMISSION_GRANTED) {
-            result = true;
+            return true;
         } else {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     /**
@@ -252,14 +241,12 @@ public class ViewToBitmap {
      */
 
     public void saveToGallery() {
-
         if (isExternalStorageReady() && isPermissionGranted()) {
             AsyncSaveBitmap asyncSaveBitmap = new AsyncSaveBitmap(getAppContext());
             asyncSaveBitmap.execute();
         } else {
             Log.d(TAG, "Make sure external storage is available and permission WRITE_EXTERNAL_STORAGE is granted");
         }
-
     }
 
 
@@ -282,18 +269,14 @@ public class ViewToBitmap {
 
             try {
                 out = new BufferedOutputStream(new FileOutputStream(file));
-
                 if (saveAsPNG) {
                     viewToBitmap().compress(Bitmap.CompressFormat.PNG, 100, out);
-
                 } else {
                     if (jpgQuality == 0) {
                         quality = JPG_MAX_QUALITY;
                     }
-
                     viewToBitmap().compress(Bitmap.CompressFormat.JPEG, quality, out);
                 }
-
             } catch (IOException e) {
                 e.printStackTrace();
                 onBitmapSavedListener(false, null);
@@ -328,7 +311,5 @@ public class ViewToBitmap {
             }
         }
     }
-
-
 }
 
