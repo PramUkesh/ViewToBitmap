@@ -26,9 +26,9 @@ Currently used in:
 
 ```java
         
-        ViewToBitmap image = new ViewToBitmap(drawingBoard);
-        image.setOnBitmapSaveListener(this);
-        image.saveToGallery();
+    ViewToBitmap image = new ViewToBitmap(drawingBoard);
+    image.setOnBitmapSaveListener(this);
+    image.saveToGallery();
         
    
    //With optinal listener
