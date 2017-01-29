@@ -9,6 +9,8 @@ Currently used in:
 
 *Feel free to contact me if you want your app to be included here*
 
+<a href="https://github.com/Muddz/ViewToBitmap/raw/master/ViewToBitmap-sample.apk">Download the sample .apk: </a>
+
 ### Features
 
 - The library saves in an ```AsyncTask```
@@ -22,19 +24,22 @@ Currently used in:
 
 ### Example of simple usage
 
-    public void saveToGallery(View v) {
+```java
         
-        ViewToBitmap image = new ViewToBitmap(drawingBoard);
-        image.setOnBitmapSaveListener(this);
-        image.saveToGallery();
-    }
+    ViewToBitmap image = new ViewToBitmap(drawingBoard);
+    image.setOnBitmapSaveListener(this);
+    image.saveToGallery();
+        
    
+   //With optinal listener
     @Override
     public void onBitmapSaved(final boolean isSaved, final String path) {
         if (isSaved) {
             Toast.makeText(this, "Bitmap Saved at; " + path, Toast.LENGTH_SHORT).show();
         }
     }  
+    
+```
     
     
 ### Installation
@@ -43,7 +48,7 @@ Add the depedency in your build.gradle. The library is distributed via jCenter
 
 ```groovy
 dependencies {
-    compile 'com.muddzdev:viewtobitmap:1.0.6'    
+    compile 'com.muddzdev:viewtobitmap:1.0.7'    
 }
 ```
  ----
