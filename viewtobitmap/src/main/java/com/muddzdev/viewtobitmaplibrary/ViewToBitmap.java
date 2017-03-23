@@ -50,36 +50,36 @@ public class ViewToBitmap {
     private static final String EXTENSION_NOMEDIA = ".nomedia";
     private static final String TAG = "ViewToBitmap";
     private static final int JPG_MAX_QUALITY = 100;
-
     private View view;
     private int jpgQuality;
-    private String fileName;
-    private String folderName;
+    private String fileName, folderName;
     private boolean saveAsPNG, saveAsNomedia;
     private OnBitmapSaveListener onBitmapSaveListener;
 
 
     /**
-     * @param view The view to save as image
+     * @param view The View or ViewGroup to save as image.
      */
     public ViewToBitmap(@NonNull View view) {
         this.view = view;
     }
 
     /**
-     * @param view       The view that will be saved as Bitmap. Can also be a ViewGroup.
-     * @param folderName Name of the folder/directory that will be created to store your saved Bitmaps. If null Bitmaps will be saved to DIRECTORY_PICTURES.
+     * @param view       The View or ViewGroup to save as image.
+     * @param folderName Name of the folder for storing the images. Can also be existing folders. Folders that don't exist will be created.
      */
     public ViewToBitmap(@Nullable View view, @Nullable String folderName) {
         this.view = view;
         this.folderName = folderName;
     }
 
+
     /**
-     * @param view       The view that will be saved as Bitmap. Can also be a ViewGroup.
-     * @param folderName Name of the folder/directory that will be created to store your saved Bitmaps. If null Bitmaps will be saved to DIRECTORY_PICTURES.
-     * @param fileName   If null the filename will be a timestamp at saving time.
+     * @param view       The View or ViewGroup to save as image.
+     * @param folderName Name of the folder for storing the images. Can also be existing folders. Folders that don't exist will be created.
+     * @param fileName   If null the filenames will be a timestamp of System.currentTimeMillis() at saving time.
      */
+
     public ViewToBitmap(@Nullable View view, @Nullable String folderName, @Nullable String fileName) {
         this.view = view;
         this.folderName = folderName;
@@ -88,7 +88,7 @@ public class ViewToBitmap {
 
 
     /**
-     * saveAsNomedia Saving the bitmap as .nomedia fileformat makes it invisible in the gallery.
+     * Saving the image as .nomedia file format makes it invisible in the gallery of the phone or other image viewers.
      */
     public void saveAsNomedia() {
         saveAsNomedia = true;
@@ -99,62 +99,57 @@ public class ViewToBitmap {
     }
 
     /**
-     * Set the quality of the JPG between 1-100 before saving.
-     * <p>As default the quality for JPG will be 100(MAX).</p>
-     * <p>Any value set will be ignored for PNG.</p>
-     *
-     * @param jpgQuality
+     * Sets the quality of the JPG between 1-100. The higher number the bigger JPG. file
+     * <br>As default the quality for JPG will be 100(MAX QUALITY).
+     * Any value set will be ignored for PNG.
      */
     public void setJpgQuality(int jpgQuality) {
         this.jpgQuality = jpgQuality;
-
     }
 
 
     /**
-     * Set the name of saved file.
-     * <p>If not set manually, the files will have a timestamp as filename.</p>
-     *
-     * @param fileName
+     * Sets the name of the image file.
+     * <p>If not set manually, the files will have a timestamp from System.currentTimeMillis() as file name.</p>
      */
     public void setFileName(String fileName) {
         this.fileName = fileName;
     }
 
 
+    //TODO Folder name, directory name, path?
+
     /**
      * Sets the name of the folder/Directory to where your bitmaps will be saved.
      * <p>Default directory: Environment.DIRECTORY_PICTURES.</p>
      * Other standard Android directories in Environment.DIRECTORY_X can also be used
      * <p>or just name your own directory as you wish</p>
-     *
-     * @param folderName
      */
-    public void setDirectoryName(String folderName) {
+    public void setFolderName(String folderName) {
         this.folderName = folderName;
-
     }
 
 
-    private String getFolderName() {
-        String result;
-        if (folderName == null || folderName.isEmpty()) {
-            result = Environment.DIRECTORY_PICTURES;
-        } else {
-            result = folderName;
-        }
-
-        return result;
-    }
-
+    /**
+     * @param view The View or ViewGroup to save as image.
+     */
     public void setView(View view) {
         this.view = view;
     }
 
+
+    /**
+     * A listener that notifies users if and where the images is saved.
+     */
+
+    public void setOnBitmapSaveListener(OnBitmapSaveListener onBitmapSaveListener) {
+        this.onBitmapSaveListener = onBitmapSaveListener;
+    }
+
+    // PUBLIC METHODS END HERE ! ----- !
+
     private Context getAppContext() {
-
         Context context = null;
-
         if (view != null) {
             context = view.getContext().getApplicationContext();
         }
@@ -162,10 +157,24 @@ public class ViewToBitmap {
         return context;
     }
 
-    public void setOnBitmapSaveListener(OnBitmapSaveListener onBitmapSaveListener) {
-        this.onBitmapSaveListener = onBitmapSaveListener;
+    private String getFolderName() {
+        if (folderName == null || folderName.isEmpty()) {
+            return Environment.DIRECTORY_PICTURES;
+        } else {
+            return folderName;
+        }
     }
 
+
+    private int getJpgQuality() {
+        if (jpgQuality == 0) {
+            return JPG_MAX_QUALITY;
+        } else {
+            return jpgQuality;
+        }
+    }
+
+    //TODO new name for this method!
     private void onBitmapSavedListener(final boolean isSaved, final String path) {
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
@@ -197,15 +206,12 @@ public class ViewToBitmap {
         }
     }
 
-    /**
-     * Converts a view into a bitmap/image
-     */
-    private Bitmap viewToBitmap() {
 
+    //Returns the passed View/ViewGroup as a Bitmap object
+    private Bitmap viewToBitmap() {
         Bitmap bitmap = null;
 
         if (view != null) {
-
             view.setDrawingCacheEnabled(true);
             view.getDrawingCache();
             view.buildDrawingCache();
@@ -213,11 +219,10 @@ public class ViewToBitmap {
             view.setDrawingCacheEnabled(false);
             view.buildDrawingCache(false);
         }
-
         return bitmap;
-
     }
 
+    //If the storage is available for writing operations
     private boolean isExternalStorageReady() {
         if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
             return true;
@@ -226,9 +231,9 @@ public class ViewToBitmap {
         }
     }
 
+    //We need to check for writing permission before we execute any saving operation
     private boolean isPermissionGranted() {
         String permission = Manifest.permission.WRITE_EXTERNAL_STORAGE;
-
         if (ContextCompat.checkSelfPermission(getAppContext(), permission) == PackageManager.PERMISSION_GRANTED) {
             return true;
         } else {
@@ -236,9 +241,6 @@ public class ViewToBitmap {
         }
     }
 
-    /**
-     * Saves the view as an Image in AsyncTask to the phones gallery
-     */
 
     public void saveToGallery() {
         if (isExternalStorageReady() && isPermissionGranted()) {
@@ -252,7 +254,8 @@ public class ViewToBitmap {
 
     private class AsyncSaveBitmap extends AsyncTask<Void, Void, Void> implements MediaScannerConnection.OnScanCompletedListener {
 
-        private final Context context;
+        private Context context;
+        private File directory, imageFile;
 
         public AsyncSaveBitmap(Context context) {
             this.context = context;
@@ -260,28 +263,25 @@ public class ViewToBitmap {
 
         @Override
         protected Void doInBackground(Void... params) {
-
-            final File myDir = new File(Environment.getExternalStorageDirectory(), getFolderName());
-            myDir.mkdirs();
-            final File file = new File(myDir, getFileName() + getFileExtension());
+            directory = new File(Environment.getExternalStorageDirectory(), getFolderName());
+            directory.mkdirs();
+            imageFile = new File(directory, getFileName() + getFileExtension());
             OutputStream out = null;
-            int quality = 0;
 
             try {
-                out = new BufferedOutputStream(new FileOutputStream(file));
+                out = new BufferedOutputStream(new FileOutputStream(imageFile));
                 if (saveAsPNG) {
                     viewToBitmap().compress(Bitmap.CompressFormat.PNG, 100, out);
                 } else {
-                    if (jpgQuality == 0) {
-                        quality = JPG_MAX_QUALITY;
-                    }
-                    viewToBitmap().compress(Bitmap.CompressFormat.JPEG, quality, out);
+                    viewToBitmap().compress(Bitmap.CompressFormat.JPEG, getJpgQuality(), out);
                 }
+
             } catch (IOException e) {
                 e.printStackTrace();
                 onBitmapSavedListener(false, null);
-
             } finally {
+
+                //TODO Find ud af om MediaScannerConnection.ScanFile.... er placeret rigtigt!
                 if (out != null) {
                     try {
                         out.close();
@@ -291,7 +291,7 @@ public class ViewToBitmap {
                     }
                 }
 
-                MediaScannerConnection.scanFile(context, new String[]{file.toString()}, null, this);
+                MediaScannerConnection.scanFile(context, new String[]{imageFile.toString()}, null, this);
             }
 
             return null;
@@ -300,7 +300,6 @@ public class ViewToBitmap {
 
         @Override
         public void onScanCompleted(String path, Uri uri) {
-
             if (uri != null && path != null) {
                 onBitmapSavedListener(true, path);
                 Log.i(TAG, "PATH: " + path);

@@ -2,6 +2,7 @@ package com.muddzdev.viewtobitmap;
 
 import android.Manifest;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -10,10 +11,11 @@ import android.widget.Toast;
 
 import com.muddzdev.viewtobitmaplibrary.OnBitmapSaveListener;
 import com.muddzdev.viewtobitmaplibrary.ViewToBitmap;
+import com.squareup.leakcanary.RefWatcher;
 
 public class MainActivity extends AppCompatActivity implements OnBitmapSaveListener {
 
-    private RelativeLayout quotePictor;
+    private RelativeLayout quotePicture;
     private Toolbar toolbar;
 
     @Override
@@ -24,7 +26,7 @@ public class MainActivity extends AppCompatActivity implements OnBitmapSaveListe
         PermissionRequester permissionRequester = new PermissionRequester(this, this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
         permissionRequester.request();
 
-        quotePictor = (RelativeLayout) findViewById(R.id.container);
+        quotePicture = (RelativeLayout) findViewById(R.id.container);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -33,20 +35,26 @@ public class MainActivity extends AppCompatActivity implements OnBitmapSaveListe
 
 
     public void saveToGallery(View v) {
-
-        ViewToBitmap image = new ViewToBitmap(quotePictor);
+        ViewToBitmap image = new ViewToBitmap(quotePicture);
+        image.setFolderName(Environment.DIRECTORY_PICTURES+"/My app");
         image.setOnBitmapSaveListener(this);
         image.saveToGallery();
-
-
     }
 
 
     @Override
     public void onBitmapSaved(final boolean isSaved, final String path) {
-
         if (isSaved) {
             Toast.makeText(this, "Bitmap Saved at; " + path, Toast.LENGTH_SHORT).show();
         }
     }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        RefWatcher refWatcher = App.getRefWatcher(this);
+        refWatcher.watch(this);
+    }
 }
+
