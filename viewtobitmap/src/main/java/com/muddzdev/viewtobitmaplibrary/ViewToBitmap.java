@@ -189,9 +189,9 @@ public class ViewToBitmap {
 
     private String getFileName() {
         if (fileName == null || fileName.isEmpty()) {
-            return String.valueOf(System.currentTimeMillis());
+            return String.valueOf(System.currentTimeMillis() + getFileExtension());
         } else {
-            return fileName;
+            return fileName + getFileExtension();
         }
     }
 
@@ -253,7 +253,6 @@ public class ViewToBitmap {
 
 
     private class AsyncSaveBitmap extends AsyncTask<Void, Void, Void> implements MediaScannerConnection.OnScanCompletedListener {
-
         private Context context;
         private File directory, imageFile;
 
@@ -265,7 +264,7 @@ public class ViewToBitmap {
         protected Void doInBackground(Void... params) {
             directory = new File(Environment.getExternalStorageDirectory(), getFolderName());
             directory.mkdirs();
-            imageFile = new File(directory, getFileName() + getFileExtension());
+            imageFile = new File(directory, getFileName());
             OutputStream out = null;
 
             try {
