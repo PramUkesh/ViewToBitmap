@@ -16,14 +16,20 @@ Perfect for photofiltre, quotes and drawing apps! Feel free to try the .apk samp
 
 ----
 
-### Example of simple usage
+### Example of usage
 
 ```java
-        
-    ViewToBitmap image = new ViewToBitmap(drawingBoard);
+    
+   
+   //Simplest usage
+    ViewToBitmap image = new ViewToBitmap(myFrameLayout);
     image.setOnBitmapSaveListener(this);
-    image.saveToGallery();
-        
+    image.saveImage();
+    
+   //Specifiy your own directory path for the images. Default directory is "Pictures"
+    String directoryPathExample1 = "/MyApp/Media/Photos";
+    String directoryPathExample2 = Environment.DIRECTORY_PICTURES + "/MyApp";
+    imageFile.setDirectoryPath(directoryPathExample1);
    
    //With optinal listener
     @Override
