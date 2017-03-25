@@ -21,7 +21,8 @@ Perfect for photofiltre, quotes and drawing apps! Feel free to try the .apk samp
 ```java
     
    
-    ViewToBitmap image = new ViewToBitmap(drawingBoard);
+   //Simplest usage
+    ViewToBitmap image = new ViewToBitmap(myFrameLayout);
     image.setOnBitmapSaveListener(this);
     image.saveImage();
     
