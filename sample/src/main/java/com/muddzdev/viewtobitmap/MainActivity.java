@@ -1,8 +1,10 @@
 package com.muddzdev.viewtobitmap;
 
 import android.Manifest;
+import android.media.Image;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -11,19 +13,20 @@ import android.widget.Toast;
 
 import com.muddzdev.viewtobitmaplibrary.OnBitmapSaveListener;
 import com.muddzdev.viewtobitmaplibrary.ViewToBitmap;
-import com.squareup.leakcanary.RefWatcher;
+
 
 public class MainActivity extends AppCompatActivity implements OnBitmapSaveListener {
 
     private RelativeLayout quotePicture;
     private Toolbar toolbar;
+    private PermissionRequester permissionRequester;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        PermissionRequester permissionRequester = new PermissionRequester(this, this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        permissionRequester = new PermissionRequester(this, this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
         permissionRequester.request();
 
         quotePicture = (RelativeLayout) findViewById(R.id.container);
@@ -35,10 +38,16 @@ public class MainActivity extends AppCompatActivity implements OnBitmapSaveListe
 
 
     public void saveToGallery(View v) {
+
+        String directoryPathExample1 = "/MyApp/Media/Photos";
+        String directoryPathExample2 = Environment.DIRECTORY_PICTURES + "/MyApp";
+
+        Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+        vibrator.vibrate(60);
+
         ViewToBitmap image = new ViewToBitmap(quotePicture);
-        image.setFolderName(Environment.DIRECTORY_PICTURES+"/My app");
         image.setOnBitmapSaveListener(this);
-        image.saveToGallery();
+        image.saveImage();
     }
 
 
@@ -47,14 +56,6 @@ public class MainActivity extends AppCompatActivity implements OnBitmapSaveListe
         if (isSaved) {
             Toast.makeText(this, "Bitmap Saved at; " + path, Toast.LENGTH_SHORT).show();
         }
-    }
-
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        RefWatcher refWatcher = App.getRefWatcher(this);
-        refWatcher.watch(this);
     }
 }
 

@@ -38,21 +38,21 @@ import java.io.OutputStream;
 
 /**
  * <p></p>
- * The most easy way to save any View as an image to the phones gallery with options as; file format, jpg quality, naming of the files and folder.
- * The saving operation happens in a AsyncTask thread to prevent blocking the UI Thread.
+ * The easiest way to save any View as an image to the phones gallery with options as; file format, jpg quality and naming of the files.
+ * The saving happens in a AsyncTask thread to prevent blocking the UI Thread.
  * <p>The class contains an optional listener that returns a boolean value confirming weather the file has been saved or not and a path to file</p>
  */
 
 public class ViewToBitmap {
 
+    private static final String TAG = "ViewToBitmap";
     private static final String EXTENSION_PNG = ".png";
     private static final String EXTENSION_JPG = ".jpg";
     private static final String EXTENSION_NOMEDIA = ".nomedia";
-    private static final String TAG = "ViewToBitmap";
     private static final int JPG_MAX_QUALITY = 100;
     private View view;
     private int jpgQuality;
-    private String fileName, folderName;
+    private String fileName, directoryPath;
     private boolean saveAsPNG, saveAsNomedia;
     private OnBitmapSaveListener onBitmapSaveListener;
 
@@ -65,30 +65,30 @@ public class ViewToBitmap {
     }
 
     /**
-     * @param view       The View or ViewGroup to save as image.
-     * @param folderName Name of the folder for storing the images. Can also be existing folders. Folders that don't exist will be created.
+     * @param view          The View or ViewGroup to save as image.
+     * @param directoryPath The directory path to where your images will be saved. Can also be existing directories. Directories that don't exist will be created.
      */
-    public ViewToBitmap(@Nullable View view, @Nullable String folderName) {
+    public ViewToBitmap(@Nullable View view, @Nullable String directoryPath) {
         this.view = view;
-        this.folderName = folderName;
+        this.directoryPath = directoryPath;
     }
 
 
     /**
-     * @param view       The View or ViewGroup to save as image.
-     * @param folderName Name of the folder for storing the images. Can also be existing folders. Folders that don't exist will be created.
-     * @param fileName   If null the filenames will be a timestamp of System.currentTimeMillis() at saving time.
+     * @param view          The View or ViewGroup to save as image.
+     * @param directoryPath The directory path to where your images will be saved. Can also be existing directories. Directories that don't exist will be created.
+     * @param fileName      If null the filenames will be a timestamp of System.currentTimeMillis() at saving time.
      */
 
-    public ViewToBitmap(@Nullable View view, @Nullable String folderName, @Nullable String fileName) {
+    public ViewToBitmap(@Nullable View view, @Nullable String directoryPath, @Nullable String fileName) {
         this.view = view;
-        this.folderName = folderName;
+        this.directoryPath = directoryPath;
         this.fileName = fileName;
     }
 
 
     /**
-     * Saving the image as .nomedia file format makes it invisible in the gallery of the phone or other image viewers.
+     * Saving the images as .nomedia format makes them invisible in the gallery of the phone or other image viewers.
      */
     public void saveAsNomedia() {
         saveAsNomedia = true;
@@ -99,7 +99,7 @@ public class ViewToBitmap {
     }
 
     /**
-     * Sets the quality of the JPG between 1-100. The higher number the bigger JPG. file
+     * Sets the quality of the JPG between 1-100. The higher number the bigger JPG. file.
      * <br>As default the quality for JPG will be 100(MAX QUALITY).
      * Any value set will be ignored for PNG.
      */
@@ -117,16 +117,14 @@ public class ViewToBitmap {
     }
 
 
-    //TODO Folder name, directory name, path?
-
     /**
-     * Sets the name of the folder/Directory to where your bitmaps will be saved.
-     * <p>Default directory: Environment.DIRECTORY_PICTURES.</p>
-     * Other standard Android directories in Environment.DIRECTORY_X can also be used
-     * <p>or just name your own directory as you wish</p>
+     * Sets the directory path to where your images will be saved. The root directory is set from <i>Environment.getExternalStorageState()</i> so that root path should not be included in your path String.
+     * <p>Default path is set to the standard directory for pictures: <i>Environment.DIRECTORY_PICTURES</i>.</p>
+     * Directories that don't already exist will be automatically created.
+     * Example for setting a full path: "/MyApp/Medias/Photos"
      */
-    public void setFolderName(String folderName) {
-        this.folderName = folderName;
+    public void setDirectoryPath(String directoryPath) {
+        this.directoryPath = directoryPath;
     }
 
 
@@ -146,7 +144,6 @@ public class ViewToBitmap {
         this.onBitmapSaveListener = onBitmapSaveListener;
     }
 
-    // PUBLIC METHODS END HERE ! ----- !
 
     private Context getAppContext() {
         Context context = null;
@@ -157,11 +154,11 @@ public class ViewToBitmap {
         return context;
     }
 
-    private String getFolderName() {
-        if (folderName == null || folderName.isEmpty()) {
+    private String getDirectoryPath() {
+        if (directoryPath == null || directoryPath.isEmpty()) {
             return Environment.DIRECTORY_PICTURES;
         } else {
-            return folderName;
+            return directoryPath;
         }
     }
 
@@ -174,8 +171,8 @@ public class ViewToBitmap {
         }
     }
 
-    //TODO new name for this method!
-    private void onBitmapSavedListener(final boolean isSaved, final String path) {
+
+    private void responseListener(final boolean isSaved, final String path) {
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
             public void run() {
@@ -222,7 +219,7 @@ public class ViewToBitmap {
         return bitmap;
     }
 
-    //If the storage is available for writing operations
+
     private boolean isExternalStorageReady() {
         if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
             return true;
@@ -242,7 +239,7 @@ public class ViewToBitmap {
     }
 
 
-    public void saveToGallery() {
+    public void saveImage() {
         if (isExternalStorageReady() && isPermissionGranted()) {
             AsyncSaveBitmap asyncSaveBitmap = new AsyncSaveBitmap(getAppContext());
             asyncSaveBitmap.execute();
@@ -254,7 +251,7 @@ public class ViewToBitmap {
 
     private class AsyncSaveBitmap extends AsyncTask<Void, Void, Void> implements MediaScannerConnection.OnScanCompletedListener {
         private Context context;
-        private File directory, imageFile;
+        private File directoryFile, imageFile;
 
         public AsyncSaveBitmap(Context context) {
             this.context = context;
@@ -262,9 +259,9 @@ public class ViewToBitmap {
 
         @Override
         protected Void doInBackground(Void... params) {
-            directory = new File(Environment.getExternalStorageDirectory(), getFolderName());
-            directory.mkdirs();
-            imageFile = new File(directory, getFileName());
+            directoryFile = new File(Environment.getExternalStorageDirectory(), getDirectoryPath());
+            directoryFile.mkdirs();
+            imageFile = new File(directoryFile, getFileName());
             OutputStream out = null;
 
             try {
@@ -277,15 +274,13 @@ public class ViewToBitmap {
 
             } catch (IOException e) {
                 e.printStackTrace();
-                onBitmapSavedListener(false, null);
+                responseListener(false, null);
             } finally {
-
-                //TODO Find ud af om MediaScannerConnection.ScanFile.... er placeret rigtigt!
                 if (out != null) {
                     try {
                         out.close();
                     } catch (IOException e) {
-                        onBitmapSavedListener(false, null);
+                        responseListener(false, null);
                         e.printStackTrace();
                     }
                 }
@@ -300,13 +295,14 @@ public class ViewToBitmap {
         @Override
         public void onScanCompleted(String path, Uri uri) {
             if (uri != null && path != null) {
-                onBitmapSavedListener(true, path);
+                responseListener(true, path);
                 Log.i(TAG, "PATH: " + path);
                 Log.i(TAG, "URI: " + uri);
 
             } else {
-                onBitmapSavedListener(false, null);
+                responseListener(false, null);
             }
+
         }
     }
 }
