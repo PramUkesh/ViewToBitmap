@@ -26,7 +26,7 @@ Perfect for photofiltre, quotes and drawing apps! Feel free to try the .apk samp
     image.setOnBitmapSaveListener(this);
     image.saveImage();
     
-   //Specifiy your own directory path for the images. Default directory is "Pictures"
+   //How to specifiy your own directory path for the images. 
     String directoryPathExample1 = "/MyApp/Media/Photos";
     String directoryPathExample2 = Environment.DIRECTORY_PICTURES + "/MyApp";
     imageFile.setDirectoryPath(directoryPathExample1);
