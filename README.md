@@ -3,7 +3,7 @@
 An Android library that makes it very easy and very quick to save any View or ViewGroup as an image to the gallery.  
 Perfect for photofiltre, quotes and drawing apps! Feel free to try the .apk sample.
 
-<a href="https://github.com/Muddz/ViewToBitmap/raw/master/ViewToBitmap-sample.apk">Download the sample .apk: </a>
+<a href="https://github.com/Muddz/ViewToBitmap/raw/master/Demo%20App.apk">Download the sample apk</a>
 
 ### Features
 
