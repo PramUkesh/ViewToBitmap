@@ -54,8 +54,13 @@ public class ViewToBitmap {
     private int jpgQuality;
     private String fileName, directoryPath;
     private boolean saveAsPNG, saveAsNomedia;
-    private OnBitmapSaveListener onBitmapSaveListener;
+    private OnSaveResultListener onSaveResultListener;
+    private Handler handler;
+    private Runnable runnable;
 
+
+    public ViewToBitmap() {
+    }
 
     /**
      * @param view The View or ViewGroup to save as image.
@@ -140,8 +145,9 @@ public class ViewToBitmap {
      * A listener that notifies users if and where the images is saved.
      */
 
-    public void setOnBitmapSaveListener(OnBitmapSaveListener onBitmapSaveListener) {
-        this.onBitmapSaveListener = onBitmapSaveListener;
+    public void setOnSaveResultListener(OnSaveResultListener onSaveResultListener) {
+        this.onSaveResultListener = onSaveResultListener;
+        this.handler = new Handler(Looper.myLooper());
     }
 
 
@@ -173,14 +179,19 @@ public class ViewToBitmap {
 
 
     private void responseListener(final boolean isSaved, final String path) {
-        new Handler(Looper.getMainLooper()).post(new Runnable() {
-            @Override
-            public void run() {
-                if (onBitmapSaveListener != null) {
-                    onBitmapSaveListener.onBitmapSaved(isSaved, path);
-                }
+        if (onSaveResultListener != null) {
+            if (handler != null && runnable != null) {
+                handler.removeCallbacks(runnable);
             }
-        });
+
+            runnable = new Runnable() {
+                @Override
+                public void run() {
+                    onSaveResultListener.onBitmapSaved(isSaved, path);
+                }
+            };
+            handler.post(runnable);
+        }
     }
 
 
