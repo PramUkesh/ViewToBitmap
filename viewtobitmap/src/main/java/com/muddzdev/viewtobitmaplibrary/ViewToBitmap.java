@@ -187,7 +187,7 @@ public class ViewToBitmap {
             runnable = new Runnable() {
                 @Override
                 public void run() {
-                    onSaveResultListener.onBitmapSaved(isSaved, path);
+                    onSaveResultListener.onSaveResult(isSaved, path);
                 }
             };
             handler.post(runnable);

@@ -12,7 +12,6 @@ import android.widget.Toast;
 
 import com.muddzdev.viewtobitmaplibrary.OnSaveResultListener;
 import com.muddzdev.viewtobitmaplibrary.ViewToBitmap;
-import com.muddzdev.viewtobitmaplibrary.ViewToBitmapb;
 
 
 public class MainActivity extends AppCompatActivity implements OnSaveResultListener {
@@ -33,7 +32,7 @@ public class MainActivity extends AppCompatActivity implements OnSaveResultListe
         quotePicture = (RelativeLayout) findViewById(R.id.container);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
         viewToBitmap = new ViewToBitmap();
         viewToBitmap.setOnSaveResultListener(this);
 
@@ -54,21 +53,6 @@ public class MainActivity extends AppCompatActivity implements OnSaveResultListe
         ViewToBitmap viewToBitmap = new ViewToBitmap();
         viewToBitmap.saveAsNomedia();
 
-
-        // simple form
-        ViewToBitmapb.from(quotePicture).toPNG().save();
-
-        ViewToBitmapb.from(null).save();
-
-
-        // with all attributes
-        ViewToBitmapb
-                .from(quotePicture)
-                .setDirectoryPath("MyApp/Pictures")
-                .setFileName("MyPictures")
-                .setOnSaveResultListener(this)
-                .toJPG()
-                .save();
 
     }
 
