@@ -1,4 +1,4 @@
-#### ViewToBitmap is deprecated! Use the new [Viewshot](https://github.com/Muddz/Viewshot)
+## ViewToBitmap is deprecated! Use the new [Viewshot](https://github.com/Muddz/Viewshot)
 
 
 ### License
