@@ -1,4 +1,5 @@
 ## ViewToBitmap is deprecated! Use the new [Viewshot](https://github.com/Muddz/Viewshot)
+ViewToBitmap will be deleted soon
 
 
 ### License
