@@ -37,12 +37,12 @@ import java.io.OutputStream;
 //        limitations under the License.
 
 /**
- * <p></p>
- * The easiest way to save any View as an image to the phones gallery with options as; file format, jpg quality and naming of the files.
- * The saving happens in a AsyncTask thread to prevent blocking the UI Thread.
- * <p>The class contains an optional listener that returns a boolean value confirming weather the file has been saved or not and a path to file</p>
+ *
+ * This library is deprecated! Use the new Viewshot: https://github.com/Muddz/Viewshot
+ *
  */
 
+@Deprecated
 public class ViewToBitmap {
 
     private static final String TAG = "ViewToBitmap";
@@ -54,25 +54,29 @@ public class ViewToBitmap {
     private int jpgQuality;
     private String fileName, directoryPath;
     private boolean saveAsPNG, saveAsNomedia;
-    private OnSaveResultListener onSaveResultListener;
     private Handler handler;
     private Runnable runnable;
 
 
+    /**
+     * * This library is deprecated! Use the new Viewshot: https://github.com/Muddz/Viewshot
+     */
+    @Deprecated
     public ViewToBitmap() {
     }
 
     /**
-     * @param view The View or ViewGroup to save as image.
+     * * This library is deprecated! Use the new Viewshot: https://github.com/Muddz/Viewshot
      */
+    @Deprecated
     public ViewToBitmap(@NonNull View view) {
         this.view = view;
     }
 
     /**
-     * @param view          The View or ViewGroup to save as image.
-     * @param directoryPath The directory path to where your images will be saved. Can also be existing directories. Directories that don't exist will be created.
+     * * This library is deprecated! Use the new Viewshot: https://github.com/Muddz/Viewshot
      */
+    @Deprecated
     public ViewToBitmap(@Nullable View view, @Nullable String directoryPath) {
         this.view = view;
         this.directoryPath = directoryPath;
@@ -80,11 +84,9 @@ public class ViewToBitmap {
 
 
     /**
-     * @param view          The View or ViewGroup to save as image.
-     * @param directoryPath The directory path to where your images will be saved. Can also be existing directories. Directories that don't exist will be created.
-     * @param fileName      If null the filenames will be a timestamp of System.currentTimeMillis() at saving time.
+     * * This library is deprecated! Use the new Viewshot: https://github.com/Muddz/Viewshot
      */
-
+    @Deprecated
     public ViewToBitmap(@Nullable View view, @Nullable String directoryPath, @Nullable String fileName) {
         this.view = view;
         this.directoryPath = directoryPath;
@@ -93,60 +95,60 @@ public class ViewToBitmap {
 
 
     /**
-     * Saving the images as .nomedia format makes them invisible in the gallery of the phone or other image viewers.
+     * * This library is deprecated! Use the new Viewshot: https://github.com/Muddz/Viewshot
      */
+    @Deprecated
     public void saveAsNomedia() {
         saveAsNomedia = true;
     }
-
+    /**
+     * * This library is deprecated! Use the new Viewshot: https://github.com/Muddz/Viewshot
+     */
+    @Deprecated
     public void saveAsPNG() {
         saveAsPNG = true;
     }
 
     /**
-     * Sets the quality of the JPG between 1-100. The higher number the bigger JPG. file.
-     * <br>As default the quality for JPG will be 100(MAX QUALITY).
-     * Any value set will be ignored for PNG.
+     * * This library is deprecated! Use the new Viewshot: https://github.com/Muddz/Viewshot
      */
+    @Deprecated
     public void setJpgQuality(int jpgQuality) {
         this.jpgQuality = jpgQuality;
     }
 
 
     /**
-     * Sets the name of the image file.
-     * <p>If not set manually, the files will have a timestamp from System.currentTimeMillis() as file name.</p>
+     * * This library is deprecated! Use the new Viewshot: https://github.com/Muddz/Viewshot
      */
+    @Deprecated
     public void setFileName(String fileName) {
         this.fileName = fileName;
     }
 
 
     /**
-     * Sets the directory path to where your images will be saved. The root directory is set from <i>Environment.getExternalStorageState()</i> so that root path should not be included in your path String.
-     * <p>Default path is set to the standard directory for pictures: <i>Environment.DIRECTORY_PICTURES</i>.</p>
-     * Directories that don't already exist will be automatically created.
-     * Example for setting a full path: "/MyApp/Medias/Photos"
+     * * This library is deprecated! Use the new Viewshot: https://github.com/Muddz/Viewshot
      */
+    @Deprecated
     public void setDirectoryPath(String directoryPath) {
         this.directoryPath = directoryPath;
     }
 
 
     /**
-     * @param view The View or ViewGroup to save as image.
+     * * This library is deprecated! Use the new Viewshot: https://github.com/Muddz/Viewshot
      */
+    @Deprecated
     public void setView(View view) {
         this.view = view;
     }
 
-
     /**
-     * A listener that notifies users if and where the images is saved.
+     * * This library is deprecated! Use the new Viewshot: https://github.com/Muddz/Viewshot
      */
-
-    public void setOnSaveResultListener(OnSaveResultListener onSaveResultListener) {
-        this.onSaveResultListener = onSaveResultListener;
+    @Deprecated
+    public void setOnSaveResultListener() {
         this.handler = new Handler(Looper.myLooper());
     }
 
@@ -179,19 +181,19 @@ public class ViewToBitmap {
 
 
     private void responseListener(final boolean isSaved, final String path) {
-        if (onSaveResultListener != null) {
-            if (handler != null && runnable != null) {
-                handler.removeCallbacks(runnable);
-            }
 
-            runnable = new Runnable() {
-                @Override
-                public void run() {
-                    onSaveResultListener.onSaveResult(isSaved, path);
-                }
-            };
-            handler.post(runnable);
+        if (handler != null && runnable != null) {
+            handler.removeCallbacks(runnable);
         }
+
+        runnable = new Runnable() {
+            @Override
+            public void run() {
+
+            }
+        };
+        handler.post(runnable);
+
     }
 
 
@@ -249,7 +251,10 @@ public class ViewToBitmap {
         }
     }
 
-
+    /**
+     * * This library is deprecated! Use the new Viewshot: https://github.com/Muddz/Viewshot
+     */
+    @Deprecated
     public void saveImage() {
         if (isExternalStorageReady() && isPermissionGranted()) {
             AsyncSaveBitmap asyncSaveBitmap = new AsyncSaveBitmap(getAppContext());
