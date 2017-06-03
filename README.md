@@ -1,57 +1,6 @@
-### ViewToBitmap
+## ViewToBitmap is deprecated! Use the new [Viewshot](https://github.com/Muddz/Viewshot)
+ViewToBitmap will be deleted soon
 
-An Android library that makes it very easy and very quick to save any View or ViewGroup as an image to the gallery.  
-Perfect for photofiltre, quotes and drawing apps! Feel free to try the .apk sample.
-
-<a href="https://github.com/Muddz/ViewToBitmap/raw/master/Demo%20App.apk">Download the sample apk</a>
-
-### Features
-
-- The library saves in an ```AsyncTask```
-- Options to save Bitmaps in the formats: ```.JPG```  ```.PNG ``` ```.nomedia```
-- Option to put quality variable for ```JPG``` formats
-- Optional listener that gives you a boolean value and String path when/if the image is saved
-- Set the name of the Image files and specifiy your own saving directory/path. 
-- Support from API 16+
-
-----
-
-### Example of usage
-
-```java
-    
-   
-   //Simplest usage
-    ViewToBitmap image = new ViewToBitmap(myFrameLayout);
-    image.setOnBitmapSaveListener(this);
-    image.saveImage();
-    
-   //How to specifiy your own directory path for the images. 
-    String directoryPathExample1 = "/MyApp/Media/Photos";
-    String directoryPathExample2 = Environment.DIRECTORY_PICTURES + "/MyApp";
-    imageFile.setDirectoryPath(directoryPathExample1);
-   
-   //With optinal listener
-    @Override
-    public void onBitmapSaved(final boolean isSaved, final String path) {
-        if (isSaved) {
-            Toast.makeText(this, "Bitmap Saved at; " + path, Toast.LENGTH_SHORT).show();
-        }
-    }  
-    
-```
-    
-    
-### Installation
-
-Add the depedency in your build.gradle. The library is distributed via jCenter
-
-```groovy
-dependencies {
-    compile 'com.muddzdev:viewtobitmap:1.0.8'    
-}
-```
- ----
 
 ### License
 
